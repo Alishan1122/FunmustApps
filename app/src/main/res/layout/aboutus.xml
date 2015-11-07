@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+         android:background="@drawable/bg"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="About us"
+        android:textSize="25sp"
+        android:id="@+id/textView7"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="The purpose is to ease the user to download customizable items at some clicks, in a good user interface and arranged in a good manner. This makes the user confident as he would not have to hover to different applications or web pages to get these things as he will get all these items in our application. Now a day’s technology changes incredibly fast. Everyone wants to keep pace with the technology. Not everyone can purchase a new smart phone to taste the new technology and the new looks or interface. So in this ways our application helps most of the people to change the looks of their smart phone and enjoy the new interface by easily customizing the interface whenever he wants.  Our objective is to provide wallpaper, ringtone, games, applications, books, notifications, at a single place and in some clicks and in the form of well managed and arranged database. User can directly download all these items directly in their mobile phones and can use them."
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:id="@+id/textView8"
+        android:textColor="#ffffff"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/textView7"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
