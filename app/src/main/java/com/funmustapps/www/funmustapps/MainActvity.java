@@ -24,6 +24,9 @@ import com.funmustapps.www.funmustapps.Rintones.RingtoneFragment;
 import com.funmustapps.www.funmustapps.SMS.SmsFragments;
 import com.funmustapps.www.funmustapps.Wallpapers.WallpapersFragments;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class MainActvity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -33,12 +36,13 @@ public class MainActvity extends AppCompatActivity
      */
     public NavigationDrawerFragment mNavigationDrawerFragment;
     DrawerLayout mDrawerLayout;
+   public static ArrayList<String> list = new ArrayList<String>();
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private ProgressDialog pDialog;
-
+    public static ProgressDialog pDialog;
+   public static HashMap<String, String> contact = new HashMap<String, String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -207,12 +211,12 @@ public class MainActvity extends AppCompatActivity
         transaction.replace(R.id.container, fragment);
         transaction.commit();
     }
-    private void showpDialog() {
+    public static void showpDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
     }
 
-    private void hidepDialog() {
+    public static void hidepDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }

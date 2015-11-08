@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.funmustapps.www.funmustapps.ArraylistAdapter;
 import com.funmustapps.www.funmustapps.ListViewAdapter;
+import com.funmustapps.www.funmustapps.MainActvity;
 import com.funmustapps.www.funmustapps.R;
 
 /**
@@ -29,9 +32,19 @@ public class SmsFragments extends Fragment {
         View  rootview= inflater.inflate(R.layout.sms_fragmets, container, false);
 
         L=(ListView)rootview.findViewById(R.id.list_sms);
-        L.setAdapter(new ListViewAdapter(getActivity(),s));
+        L.setAdapter(new ArraylistAdapter(getActivity(), MainActvity.list));
+
+        L.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-        return rootview;
+
+            }
+        });
+
+
+
+         return rootview;
     }
 }

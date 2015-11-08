@@ -67,27 +67,50 @@ public class Signup extends AppCompatActivity {
                 name = edit_name.getText().toString();
                 email = edit_email.getText().toString();
 
+                if(Username.isEmpty()){
+                    edit_usernamesignup.setError("Required");
+
+                }
+                else if(Password.isEmpty()){
+                    edit_usernamesignup.setError("Required");
+
+                }
+                else if(Re_Password.isEmpty()){
+                    edit_usernamesignup.setError("Required");
+
+                }else if(name.isEmpty()){
+                    edit_usernamesignup.setError("Required");
+
+                }else if(email.isEmpty()){
+                    edit_usernamesignup.setError("Required");
+
+                }
+                else if(Password.equalsIgnoreCase(Re_Password)){
+
+                    signup(name, Username, email, Password);
+
+                  //  Toast.makeText(getApplicationContext(),"",Toast.LENGTH_LONG).show();
+
+
+                }
+                else {
+
+                    Toast.makeText(getApplicationContext(),"Password Not Match",Toast.LENGTH_LONG).show();
+
+                }
+
+
+
                 //  Toast.makeText(getApplicationContext(), Password, Toast.LENGTH_SHORT).show();
                 //   Toast.makeText(getApplicationContext(), Re_Password, Toast.LENGTH_SHORT).show();
-
-                if (Username.equalsIgnoreCase("") || Password.equalsIgnoreCase("") || Re_Password.equalsIgnoreCase("") || name.equalsIgnoreCase("") || email.equalsIgnoreCase("")) {
-
-                    Toast.makeText(getApplicationContext(), "Nulluser", Toast.LENGTH_SHORT).show();
-
-
-                } else {
-                    if (Password.equalsIgnoreCase(Re_Password)) {
 
                         //  String url = "http://httpbin.org/get?site=code&network=tutsplus";
 
                         // String url = "http://httpbin.org/post";
-                        signup(name, Username, email, Password);
+                    //    signup(name, Username, email, Password);
                         //   t.setText(site);
                         //   Toast.makeText(getApplicationContext(),site,Toast.LENGTH_LONG).toString();
 
-                    }
-
-                }
 
             }
         });

@@ -16,4 +16,5 @@
     <string name="action_example">Example action</string>
     <string name="title_activity_signup">Signup</string>
     <string name="title_activity_apps__fragments">Apps_Fragments</string>
+    <string name="spinner_title">Select Category</string>
 </resources>

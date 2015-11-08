@@ -1,21 +1,18 @@
-package com.funmustapps.www.funmustapps.SMS;
-
+package com.funmustapps.www.funmustapps.Profile_Fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
-
 import android.os.Bundle;
-
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.funmustapps.www.funmustapps.Apps.AppsCategory;
-import com.funmustapps.www.funmustapps.CategoryAdapter;
 
 import com.funmustapps.www.funmustapps.MainActvity;
 import com.funmustapps.www.funmustapps.R;
@@ -23,49 +20,28 @@ import com.funmustapps.www.funmustapps.RestApiClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.File;
-import java.io.FileNotFoundException;
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import java.util.ArrayList;
-import java.util.HashMap;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.CursorLoader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
+import java.util.ArrayList;
+import java.util.List;
+
 import cz.msebera.android.httpclient.Header;
 
 /**
- * Created by PC   Center on 10/25/2015.
+ * Created by PC   Center on 11/8/2015.
  */
-public class SMSCategory extends Fragment {
-        TextView txtUriPath,txtRealPath;
-    public SMSCategory() {
-    }
-    ListView L;
-        String ArraySMS[]={};
+public class Smsupload extends Fragment implements AdapterView.OnItemSelectedListener {
 
+   public Smsupload(){
+
+
+
+
+    }
         String url = "http://funmustapps.com/playstore/api.php";
-        private static final int FILE_SELECT_CODE = 0;
     String[] SMS={
+            "Select Category",
             "Funny",
             "Urdu Poetry ",
             "Sad Shayari ",
@@ -174,58 +150,83 @@ public class SMSCategory extends Fragment {
             "Friendship SMS",
             "Relational SMS",
     };
-        private ProgressDialog pDialog;
-        JSONArray contacts = null;
+        Button btnUpload;
+   static String item;
+    EditText smstext;
+    String sms;
+      //  private ProgressDialog pDialog;
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View  rootview= inflater.inflate(R.layout.sms_cate_fragment, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        L=(ListView)rootview.findViewById(R.id.list_cate_sms);
+        View  rootview= inflater.inflate(R.layout.uploadsms, container, false);
+        //    pDialog = new ProgressDialog(getActivity());
+        //    pDialog.setMessage("Please wait...");
+       //     pDialog.setCancelable(false);
+        final Spinner spinner = (Spinner)rootview.findViewById(R.id.spinner);
+            btnUpload=(Button)rootview.findViewById(R.id.btnupload);
+            smstext=(EditText)rootview.findViewById(R.id.editText);
 
-            pDialog = new ProgressDialog(getActivity());
-            pDialog.setMessage("Please wait...");
-            pDialog.setCancelable(false);
 
-            L.setAdapter(new CategoryAdapter(getActivity(), SMS));
-            L.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, SMS); //selected item will look like a spinner set from XML
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerArrayAdapter);
+
+
+            btnUpload.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public void onClick(View v) {
 
-                            getsms("sms",SMS[position]);
+                        sms=smstext.getText().toString();
+                        if(sms.isEmpty()){
+                            smstext.setError("Enter sms");
+
+                        }
+                       else if(spinner.getSelectedItem().toString().equalsIgnoreCase("Select Category") )  {
 
 
+                          //  Toast.makeText(getActivity(),"Select Category"+item,Toast.LENGTH_LONG).show();
 
-                            // 1. on Upload click call ACTION_GET_CONTENT intent
-//                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                            // 2. pick image only
-//                            intent.setType("image/*");
-//                            // 3. start activity
-//                            startActivityForResult(intent, 0);
-
-                            // define onActivityResult to do something with picked image
-                            //      getsms("sms",s[position]);
-
-                       //     showFileChooser();
-
+                        }
+                        else {
+                            item=spinner.getSelectedItem().toString();
+                               getsms(sms,"sms",item);
+//
+                        }
                     }
+
             });
 
-
-
-        return rootview;
-
+          return rootview;
 
     }
-        void getsms(final String Cate,final String subCate) {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+           //      item = parent.getItemAtPosition(position).toString();
+       //Toast.makeText(getActivity(),item,Toast.LENGTH_LONG).show();
+
+
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+
+        void getsms(String message,String category,String subcategory) {
                 //name=null;
                 //username=null;
 
                 final String[] s = new String[1];
                 RequestParams params = new RequestParams();
-                params.add("request", "get_sms");
-                params.add("category", Cate);
-                params.add("sub_category", subCate);
+                params.add("request", "sms");
+                params.add("user_id", "28");
+                params.add("message", message);
+                params.add("category", category);
+                params.add("sub_category", subcategory);
 
 
                 RestApiClient.post(url, params, new JsonHttpResponseHandler() {
@@ -233,49 +234,18 @@ public class SMSCategory extends Fragment {
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                 super.onSuccess(statusCode, headers, response);
                                 //    progressDialog.dismiss();
-                                hidepDialog();
+                                MainActvity.hidepDialog();
                                 try {
                                         s[0] = response.getString("Status");
-
-                                        //contacts = jsonObj.getJSONArray("Status");
                                 } catch (JSONException e) {
                                         e.printStackTrace();
                                 }
                                 //    Gson gson = new Gson();
                                 //    String res = gson.fromJson(response.toString(), Response.class);
                                 if (s[0].equalsIgnoreCase("OK")) {
-
-                                        try {
-                                                MainActvity.list.clear();
-
-                                                contacts = response.getJSONArray("Response");
-                                                for (int i = 0; i < contacts.length(); i++) {
-                                                        JSONObject c = contacts.getJSONObject(i);
-                                                        String id = c.getString("message");
-
-
-//                                                        JSONObject message = c.getJSONObject("Response");
-                                                        //ArraySMS[];
-//                                                        String mobile = message.getString("message");
-                                                    //    MainActvity.contact.put("message", id);
-
-                                                        MainActvity.list.add(id);
-                                                      //  ArraySMS[i]=id.toString();
-
-                                                     //   MainActvity.contact.get("message").toString();
-                                                   //     Toast.makeText(getActivity(),MainActvity.contact.get("message").toString() , Toast.LENGTH_LONG).show();
-
-                                                }
-                                                ((MainActvity) getActivity()).loadFragment(new SmsFragments());
-
-
-                                        } catch (JSONException e) {
-                                                e.printStackTrace();
-                                        }
                                         //  res.setUser(response);
                                         //  Log.d("user", res.getUser().toString());
-                                     //   Toast.makeText(getActivity(), "Problem" + response, Toast.LENGTH_LONG).show();
-
+                 Toast.makeText(getActivity(), "Problem" + response, Toast.LENGTH_LONG).show();
 
 
                                         // Intent i = new Intent(getActivity(), MainActvity.class);
@@ -290,7 +260,7 @@ public class SMSCategory extends Fragment {
                                                 e.printStackTrace();
                                         }
 
-                                        Toast.makeText(getActivity(),s[0], Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity(), "Problem" + s[0], Toast.LENGTH_LONG).show();
 
 
                                 }
@@ -301,13 +271,13 @@ public class SMSCategory extends Fragment {
                         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 super.onFailure(statusCode, headers, responseString, throwable);
                                 //     progressDialog.dismiss();
-                                hidepDialog();
+                                MainActvity.hidepDialog();
                         }
 
                         @Override
                         public void onStart() {
                                 super.onStart();
-                                showpDialog();
+                                MainActvity.showpDialog();
                                 //    progressDialog = Utlity.showProgressDialog(getApplicationContext(), "Sign Up");
                         }
 
@@ -316,14 +286,5 @@ public class SMSCategory extends Fragment {
 
         }
 
-                        private void showpDialog() {
-                                if (!pDialog.isShowing())
-                                        pDialog.show();
-                        }
-
-                        private void hidepDialog() {
-                                if (pDialog.isShowing())
-                                        pDialog.dismiss();
-                        }
 
 }
